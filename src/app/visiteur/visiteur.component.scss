@@ -1,0 +1,140 @@
+.landing-container {
+  display: flex;
+  flex-direction: column;
+  gap: 4rem;
+  padding: 2rem;
+  text-align: center;
+
+  h2 {
+    margin-bottom: 1rem;
+  }
+}
+
+/* Hero Section */
+.hero {
+  padding: 4rem 1rem;
+  background: linear-gradient(135deg, var(--mat-primary-500), var(--mat-accent-400));
+  border-radius: 1rem;
+
+  .title {
+    font-family: var(--font-serif), serif;
+    font-size: 3rem;
+    margin-bottom: 1rem;
+  }
+
+  .subtitle {
+    font-size: 1.2rem;
+    margin-bottom: 2rem;
+  }
+}
+
+.auth-buttons button {
+  margin: 0 0.5rem;
+  background-color: white;
+  transition: transform 0.1s ease, box-shadow 0.1s ease;
+  border-radius: 2rem;
+  border: 1px solid #ccc;
+}
+
+.auth-buttons button:hover {
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.15);
+  background-color: var(--orange-color);
+}
+
+/* Features Section */
+.features {
+  .features-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 1.5rem;
+    margin-top: 2rem;
+  }
+
+  .feature-card {
+    padding: 1.5rem;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    cursor: pointer;
+    border-radius: 1rem;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    background: white;
+
+    mat-icon {
+      font-size: 20px;
+      margin-bottom: 1rem;
+    }
+
+    .primary{
+      color: var(--primary-color) !important;
+    }
+
+    .orange{
+      color: var(--orange-color) !important;
+    }
+
+    .red{
+      color: var(--error-color) !important;
+    }
+
+    .black{
+      color: black !important;
+    }
+
+    &:hover {
+      transform: translateY(-5px) scale(1.02);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
+    }
+  }
+}
+
+/* Illustration Section */
+.illustration {
+  .image-placeholder{
+    width: 80%;
+    border-radius: 1rem;
+    margin: 0 auto;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    border: 1px solid rgba(0, 0, 0, 0.1);
+
+
+    img {
+      width: 100%;
+      border-radius: 1rem;
+      object-fit: cover;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    img:hover {
+      transform: scale(1.01);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
+    }
+  }
+}
+
+/* Call to Action */
+.cta {
+  h2 {
+    margin-bottom: 1.5rem;
+  }
+
+  button {
+    margin: 0 0.5rem;
+  }
+}
+
+/* Dark mode support */
+:host-context(.dark-theme) {
+  .hero {
+    background: linear-gradient(135deg, #1e1e1e, #333);
+  }
+
+  .feature-card {
+    background: #2c2c2c;
+    color: white;
+  }
+
+  .image-placeholder {
+    background-color: #444;
+    color: #ccc;
+  }
+}

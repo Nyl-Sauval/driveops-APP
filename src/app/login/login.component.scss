@@ -1,0 +1,72 @@
+.auth-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: calc(100vh - 64px); // si navbar fixe
+  padding: 2rem;
+}
+
+.auth-card {
+  width: 100%;
+  max-width: 400px;
+  padding: 2rem;
+  border-radius: 1rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  text-align: center;
+  background-color: white;
+
+  h1 {
+    margin-bottom: 1.5rem;
+  }
+
+  .full-width {
+    width: 100%;
+    margin-bottom: 1rem;
+    input {
+      border-radius: 1rem;
+    }
+  }
+
+
+
+  .divider {
+    margin: 1.5rem 0;
+    text-align: center;
+    color: gray;
+  }
+
+  .google-btn {
+    background: white;
+    border: 1px solid #ccc;
+    border-radius: 2rem;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    transition: 0.2s ease;
+
+    &:hover {
+      box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+      background-color: var(--orange-color);
+    }
+  }
+
+  .redirect {
+    margin-top: 1.5rem;
+  }
+}
+
+/* Dark mode */
+:host-context(.dark-theme) {
+  .auth-card {
+    background: #2c2c2c;
+    color: white;
+  }
+
+  .google-btn {
+    background: #444;
+    color: white;
+    border: 1px solid #666;
+  }
+}

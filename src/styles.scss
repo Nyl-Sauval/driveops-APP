@@ -1,1 +1,92 @@
-/* You can add global styles to this file, and also import other style files */
+/* Global Variables */
+:root {
+  --primary-color: #0a6802; /* Green */
+  --light-green-color: #f1fcf0; /* Light background */
+  --dark-grey-color: #3c3c3c; /* Dark grey for dark background */
+  --lighter-gray-color: #9e9e9e; /* Lighter gray for light background */
+  --orange-color: #e1a200; /* Orange for buttons */
+  --error-color: #d40924; /* Red for error messages */
+
+  --font-sans: ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+  --font-serif: ui-serif, Georgia, Cambria, 'Times New Roman', Times, serif;
+  --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace;
+}
+
+/* Light Theme */
+.light-theme {
+  --toolbar-background-color: #ffffff;
+  --background-color: #f1fcf0;
+  --text-color: #000000;
+}
+
+/* Dark Theme */
+.dark-theme {
+  --toolbar-background-color: var(--lighter-gray-color);
+  --background-color: var(--dark-grey-color);
+  --text-color: #ffffff;
+}
+
+/* Apply theme variables */
+body {
+  font-family: var(--font-sans), sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: var(--background-color);
+  color: var(--text-color);
+}
+
+mat-toolbar {
+  background-color: var(--toolbar-background-color) !important;
+  color: var(--text-color) !important;
+  border-bottom: 1px solid #ccc;
+
+  .add_vehicule_button {
+    color: var(--text-color) !important;
+    background-color: #f1fcf0 !important;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    padding: 5px 10px;
+    font-size: 14px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.3s ease;
+
+    &:hover {
+      background-color: var(--orange-color); /* Couleur de fond légèrement différente */
+      transition-duration: 0.3s;
+    }
+  }
+}
+
+.spacer {
+  flex: 1 1 auto;
+}
+
+.logo{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  gap: 10px;
+
+  .logo-icon {
+    width: 30px;
+    height: 30px;
+    background-color: #0a6802;
+    border-radius: 30%;
+    color: white;
+    /* Center the icon text */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+  }
+
+  .logo-text {
+    font-family: var(--font-serif), serif;
+    font-size: 20px;
+    font-weight: bold;
+  }
+}

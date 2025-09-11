@@ -1,0 +1,38 @@
+<div class="landing-container">
+  <!-- Hero Section -->
+  <section class="hero">
+    <h1 class="title">DriveOps</h1>
+    <p class="subtitle">Optimisez la gestion de vos véhicules facilement</p>
+    <div class="hero-buttons auth-buttons">
+      <button mat-raised-button routerLink="/login">Se connecter</button>
+      <button mat-raised-button routerLink="/register">S'inscrire</button>
+    </div>
+  </section>
+
+  <!-- Features Section -->
+  <section class="features">
+    <h2>Fonctionnalités principales</h2>
+    <div class="features-grid">
+      <mat-card class="feature-card" *ngFor="let feature of features">
+        <mat-icon class="material-icons-outlined {{ feature.color }}">{{ feature.icon }}</mat-icon>
+        <h3>{{ feature.title }}</h3>
+        <p>{{ feature.description }}</p>
+      </mat-card>
+    </div>
+  </section>
+
+  <!-- Illustration Section -->
+  <section class="illustration">
+    <h2>Aperçu de l'application</h2>
+    <div class="image-placeholder">
+      <img src="assets/images/dashboard.png" alt="Aperçu de l'application de gestion de véhicules" />
+    </div>
+  </section>
+
+  <!-- Call to Action -->
+  <section class="cta auth-buttons">
+    <h2>Prêt à gérer vos véhicules plus efficacement ?</h2>
+    <button mat-raised-button routerLink="/login">Se connecter</button>
+    <button mat-raised-button routerLink="/register">S'inscrire</button>
+  </section>
+</div>

@@ -1,0 +1,40 @@
+<div class="auth-container">
+  <mat-card class="auth-card">
+    <h1>Se connecter</h1>
+
+    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Email</mat-label>
+        <input matInput formControlName="email" type="email" />
+        <mat-error *ngIf="loginForm.get('email')?.hasError('required')">
+          L'email est requis
+        </mat-error>
+        <mat-error *ngIf="loginForm.get('email')?.hasError('email')">
+          Email invalide
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Mot de passe</mat-label>
+        <input matInput formControlName="password" type="password" />
+        <mat-error *ngIf="loginForm.get('password')?.hasError('required')">
+          Le mot de passe est requis
+        </mat-error>
+      </mat-form-field>
+
+      <button mat-raised-button color="primary" class="full-width" type="submit">
+        Connexion
+      </button>
+    </form>
+
+    <div class="divider">ou</div>
+
+    <button mat-raised-button class="google-btn" (click)="loginWithGoogle()">
+      <mat-icon svgIcon="google"></mat-icon> Se connecter avec Google
+    </button>
+
+    <p class="redirect">
+      Pas encore de compte ? <a routerLink="/register">Inscrivez-vous</a>
+    </p>
+  </mat-card>
+</div>
