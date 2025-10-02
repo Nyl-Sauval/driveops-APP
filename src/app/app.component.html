@@ -28,6 +28,10 @@
         {{ isDarkTheme ? 'light_mode' : 'dark_mode' }}
       </mat-icon>
     </button>
+    <!-- bouton logout -->
+    <button class="buttons" mat-icon-button aria-label="Logout" (click)="logout()">
+      <mat-icon class="material-icons-outlined">logout</mat-icon>
+    </button>
   </mat-toolbar>
 </main>
 
@@ -40,4 +44,4 @@
 <!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * -->
 
 
-<router-outlet />
+<router-outlet></router-outlet>
