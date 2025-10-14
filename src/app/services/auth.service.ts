@@ -18,7 +18,7 @@ export class AuthService {
 
   /** 🔹 Register classique avec email/mot de passe */
 
-  registerWithEmail(firstName: string, lastName: string, email: string, password: string, password_confirmation: string): Observable<any> {
+   registerWithEmail(firstName: string, lastName: string, email: string, password: string, password_confirmation: string): Observable<any> {
     return this.http.post<{ user: any, token: string, expires_in: number }>(
       `${this.apiUrl}/register`,
       { firstName, lastName, email, password, password_confirmation }
