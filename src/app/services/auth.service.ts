@@ -27,6 +27,7 @@ export class AuthService {
         // Stocke le token (ex: localStorage ou service de state)
         localStorage.setItem('access_token', res.token);
         localStorage.setItem('expires_at', (Date.now() + res.expires_in * 1000).toString());
+        this.setAuthenticated(res.user);
       })
     );
   }
@@ -41,6 +42,7 @@ export class AuthService {
         // Stocke le token (ex: localStorage ou service de state)
         localStorage.setItem('access_token', res.token);
         localStorage.setItem('expires_at', (Date.now() + res.expires_in * 1000).toString());
+        this.setAuthenticated(res.user);
       })
     );
   }
@@ -49,6 +51,7 @@ export class AuthService {
   logout() {
     localStorage.removeItem('access_token');
     localStorage.removeItem('expires_at');
+    this.setAuthenticated(null);
     console.log('User logged out, token removed');
     this.router.navigate(['/guest']);
   }
@@ -59,6 +62,14 @@ export class AuthService {
     console.log('Token validity check:', { token, expires });
     console.log('Le token expire dans :', expires ? new Date(+expires) : 'Jamais');
     return !!token && (!!expires ? Date.now() < +expires : true);
+  }
+
+  isAuthenticated(): boolean {
+    return this.isTokenValid();
+  }
+
+  setAuthenticated(user: any) {
+    this.currentUserSubject.next(user);
   }
 
   getMe(): Observable<any> {
