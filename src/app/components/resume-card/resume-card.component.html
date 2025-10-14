@@ -1,0 +1,14 @@
+<div class="main-container">
+  <mat-card class="resume-card">
+    <div class="card-header">
+      <h2>{{this.title}}</h2>
+      <mat-icon class="material-icons-outlined" [style.color]="color">{{ icon }}</mat-icon>
+    </div>
+    <div class="stats-grid">
+      <div class="stat-item">
+        <h3>{{ this.value }}</h3>
+        <p>{{ this.subtitle }}</p>
+      </div>
+    </div>
+  </mat-card>
+</div>
