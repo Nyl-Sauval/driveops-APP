@@ -1,1 +1,49 @@
-Comment <p>homepage works!</p>
+<div class="landing-container">
+  <!-- Hero Section -->
+  <section class="hero">
+    <h2 class="title">Tableau de bord DriveOps</h2>
+    <p class="subtitle">Gérez vos véhicules et leurs entretiens en toute simplicité</p>
+  </section>
+
+  <!-- Resume Cards Section -->
+  <section class="resume-cards">
+    <app-resume-card
+      class="resume-card"
+      title="Véhicules"
+      icon="directions_car"
+      [value]="resumeCardVehicleValue ?? '...'"
+      color="#0a6802"
+      subtitle="Véhicules enregistrés"
+    />
+
+    <app-resume-card
+      class="resume-card"
+      title="Entretiens à venir"
+      icon="build"
+      [value]="resumeCardMaintenanceValue ?? '...'"
+      color="#f39c12"
+      subtitle="Dans les 30 prochains jours"
+    />
+
+    <app-resume-card
+      class="resume-card"
+      title="Documents"
+      icon="description"
+      [value]="resumeCardInvoicesValue ?? '...'"
+      color="#2980b9"
+      subtitle="Factures et documents"
+    />
+
+    <app-resume-card
+      class="resume-card"
+      title="Alertes"
+      icon="warning"
+      [value]="resumeCardAlertsValue ?? '...'"
+      color="#c0392b"
+      subtitle="Entretiens en retards"
+    />
+    <ng-template #loading>
+      <app-resume-card [loading]="true"></app-resume-card>
+    </ng-template>
+  </section>
+</div>

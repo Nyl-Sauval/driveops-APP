@@ -73,9 +73,12 @@ export class AuthService {
   }
 
   getMe(): Observable<any> {
+    console.log('Fetching current user data from /me endpoint');
     const token = localStorage.getItem('access_token');
+    console.log('Current token:', token);
 
     if (!this.isTokenValid() || !token) {
+      console.log('Token is invalid or missing, logging out');
       this.logout();
       return of(null); // renvoie un flux vide plutôt qu'une erreur
     }
@@ -86,6 +89,7 @@ export class AuthService {
       tap(user => {
         // Met à jour le BehaviorSubject pour les composants abonnés
         this.currentUserSubject.next(user);
+        console.log('User data updated from /me endpoint', user);
       }),
       catchError(err => {
         if (err.status === 401) {
@@ -95,9 +99,5 @@ export class AuthService {
         return throwError(() => err);
       })
     );
-  }
-
-  private handleAuthSuccess(response: any) {
-
   }
 }

@@ -17,4 +17,6 @@ export class ResumeCardComponent {
   @Input() value!: string | number;
   @Input() color: string = 'bg-white';
   @Input() subtitle!: string;
+
+  @Input() loading: boolean = false;
 }
