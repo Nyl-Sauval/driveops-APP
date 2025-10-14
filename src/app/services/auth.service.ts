@@ -73,17 +73,25 @@ export class AuthService {
   }
 
   getMe(): Observable<any> {
-    if (!this.isTokenValid()) {
+    const token = localStorage.getItem('access_token');
+
+    if (!this.isTokenValid() || !token) {
       this.logout();
-      return throwError(() => new Error('Token expired'));
+      return of(null); // renvoie un flux vide plutôt qu'une erreur
     }
 
-    const token = localStorage.getItem('access_token');
     const headers = new HttpHeaders({ Authorization: `Bearer ${token}` });
 
     return this.http.get(`${this.apiUrl}/me`, { headers }).pipe(
+      tap(user => {
+        // Met à jour le BehaviorSubject pour les composants abonnés
+        this.currentUserSubject.next(user);
+      }),
       catchError(err => {
-        if (err.status === 401) this.logout(); // logout si backend dit non
+        if (err.status === 401) {
+          this.logout();
+          return of(null);
+        }
         return throwError(() => err);
       })
     );
