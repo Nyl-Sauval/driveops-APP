@@ -17,4 +17,8 @@ export class MaintenanceService {
   getFutureMaintenancesByUser(userId: string) {
     return this.http.get<any[]>(`${this.apiUrl}/users/${userId}/maintenances/future`);
   }
+
+  getLateMaintenancesByUser(userId: string) {
+    return this.http.get<any[]>(`${this.apiUrl}/users/${userId}/maintenances/late`);
+  }
 }

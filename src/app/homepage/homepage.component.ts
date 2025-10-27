@@ -3,6 +3,7 @@ import {ResumeCardComponent} from '../components/resume-card/resume-card.compone
 import {AuthService} from '../services/auth.service';
 import {VehicleService} from '../services/vehicle.service';
 import {MaintenanceService} from '../services/maintenance.service';
+import {InvoiceService} from '../services/invoice.service';
 
 @Component({
   selector: 'app-homepage',
@@ -23,7 +24,8 @@ export class HomepageComponent implements OnInit {
   constructor(
     private authService: AuthService,
     private vehicleService: VehicleService,
-    private maintenanceService: MaintenanceService
+    private maintenanceService: MaintenanceService,
+    private invoiceService: InvoiceService
   ) {
   }
 
@@ -42,16 +44,21 @@ export class HomepageComponent implements OnInit {
 
   private loadDashboardData(userId: string): void {
     console.log('Loading dashboard data for user:', userId);
-    this.vehicleService.getVehiclesByUser(userId).subscribe(vehicules => {
-      this.resumeCardVehicleValue = vehicules.length;
-      console.log('Vehicles loaded:', vehicules);
+    this.vehicleService.getNumberVehiclesByUser(userId).subscribe(response => {
+      this.resumeCardVehicleValue = response.count;
+      console.log('Vehicles loaded:', response.count);
     });
     this.maintenanceService.getFutureMaintenancesByUser(userId).subscribe(maintenances => {
       this.resumeCardMaintenanceValue = maintenances.length;
       console.log('Maintenances loaded:', maintenances);
     });
-    // Simuler les autres valeurs pour l'instant
-    this.resumeCardInvoicesValue = 3; // Exemple statique
-    this.resumeCardAlertsValue = 2; // Exemple statique
+    this.invoiceService.getInvoicesByUser(userId).subscribe(invoices => {
+      this.resumeCardInvoicesValue = invoices.length;
+      console.log('Invoices loaded:', invoices);
+  });
+    this.maintenanceService.getLateMaintenancesByUser(userId).subscribe(alerts => {
+      this.resumeCardAlertsValue = alerts.length;
+      console.log('Alerts loaded:', alerts);
+    });
   }
 }

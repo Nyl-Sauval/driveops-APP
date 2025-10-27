@@ -3,16 +3,22 @@ import {API_CONFIG} from '../config/api.config';
 import {HttpClient} from '@angular/common/http';
 import {Router} from '@angular/router';
 
+interface CountResponse {
+  count: number;
+  user_id?: string; // Optionnel
+}
+
 @Injectable({
   providedIn: 'root'
 })
+
 export class VehicleService {
   private apiUrl = API_CONFIG.apiUrl;
 
   constructor(private http: HttpClient) {}
 
-  getVehiclesByUser(userId: string) {
-    console.log(`getVehiclesByUser Fetching vehicles for user ID: ${userId}`);
-    return this.http.get<any[]>(`${this.apiUrl}/users/${userId}/vehicles`);
+
+  getNumberVehiclesByUser(userId: string) {
+    return this.http.get<CountResponse>(`${this.apiUrl}/users/${userId}/vehicles/count`);
   }
 }
