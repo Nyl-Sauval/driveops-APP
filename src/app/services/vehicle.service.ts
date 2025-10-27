@@ -12,6 +12,7 @@ export class VehicleService {
   constructor(private http: HttpClient) {}
 
   getVehiclesByUser(userId: string) {
+    console.log(`getVehiclesByUser Fetching vehicles for user ID: ${userId}`);
     return this.http.get<any[]>(`${this.apiUrl}/users/${userId}/vehicles`);
   }
 }

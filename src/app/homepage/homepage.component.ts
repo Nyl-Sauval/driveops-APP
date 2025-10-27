@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {ResumeCardComponent} from '../components/resume-card/resume-card.component';
 import {AuthService} from '../services/auth.service';
 import {VehicleService} from '../services/vehicle.service';
+import {MaintenanceService} from '../services/maintenance.service';
 
 @Component({
   selector: 'app-homepage',
@@ -21,7 +22,8 @@ export class HomepageComponent implements OnInit {
 
   constructor(
     private authService: AuthService,
-    private vehicleService: VehicleService
+    private vehicleService: VehicleService,
+    private maintenanceService: MaintenanceService
   ) {
   }
 
@@ -29,10 +31,8 @@ export class HomepageComponent implements OnInit {
     this.authService.getMe().subscribe(user => {
       if (user) {
         this.userId = user.id;
-        console.log('User ID:', this.userId);
 
         // Charger les données du dashboard seulement après avoir reçu l'ID
-        console.log('Loading dashboard data for userId:', this.userId);
         this.loadDashboardData(this.userId);
       } else {
         console.log('No user logged in');
@@ -44,11 +44,14 @@ export class HomepageComponent implements OnInit {
     console.log('Loading dashboard data for user:', userId);
     this.vehicleService.getVehiclesByUser(userId).subscribe(vehicules => {
       this.resumeCardVehicleValue = vehicules.length;
-      // Simuler les autres valeurs pour l'instant
-      this.resumeCardMaintenanceValue = 5; // Exemple statique
-      this.resumeCardInvoicesValue = 3; // Exemple statique
-      this.resumeCardAlertsValue = 2; // Exemple statique
       console.log('Vehicles loaded:', vehicules);
     });
+    this.maintenanceService.getMaintenancesByUser(userId).subscribe(maintenances => {
+      this.resumeCardMaintenanceValue = maintenances.length;
+      console.log('Maintenances loaded:', maintenances);
+    });
+    // Simuler les autres valeurs pour l'instant
+    this.resumeCardInvoicesValue = 3; // Exemple statique
+    this.resumeCardAlertsValue = 2; // Exemple statique
   }
 }
