@@ -46,7 +46,7 @@ export class HomepageComponent implements OnInit {
       this.resumeCardVehicleValue = vehicules.length;
       console.log('Vehicles loaded:', vehicules);
     });
-    this.maintenanceService.getMaintenancesByUser(userId).subscribe(maintenances => {
+    this.maintenanceService.getFutureMaintenancesByUser(userId).subscribe(maintenances => {
       this.resumeCardMaintenanceValue = maintenances.length;
       console.log('Maintenances loaded:', maintenances);
     });
