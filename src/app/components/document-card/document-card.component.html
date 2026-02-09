@@ -1,0 +1,22 @@
+<div class="document-card">
+    <div class="card-icon">
+        <mat-icon class="material-icons-outlined file-icon">{{ getFileIcon() }}</mat-icon>
+    </div>
+
+    <div class="card-content">
+        <div class="card-header">
+            <h4 class="document-title">{{ document.description || 'Document sans description' }}</h4>
+            <span class="document-date">{{ formatDate(document.date) }}</span>
+        </div>
+
+        <div class="card-footer">
+            <span class="document-amount">{{ formatAmount(document.amount) }}</span>
+            <div class="card-actions">
+                <button mat-icon-button [routerLink]="['/documents', document.id]" matTooltip="Voir les détails"
+                    class="action-btn view-btn">
+                    <mat-icon class="material-icons-outlined">visibility</mat-icon>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,17 @@
+<div class="maintenance-list">
+    <div *ngIf="displayedMaintenances.length > 0; else emptyState" class="maintenances-container">
+        <app-maintenance-card *ngFor="let maintenance of displayedMaintenances" [maintenance]="maintenance">
+        </app-maintenance-card>
+    </div>
+
+    <ng-template #emptyState>
+        <div *ngIf="showEmptyState" class="empty-state">
+            <mat-icon class="material-icons-outlined empty-icon">build_circle</mat-icon>
+            <p class="empty-message">Aucun entretien planifié</p>
+            <button mat-raised-button color="primary" routerLink="/maintenances/add">
+                <mat-icon class="material-icons-outlined">add</mat-icon>
+                Planifier un entretien
+            </button>
+        </div>
+    </ng-template>
+</div>

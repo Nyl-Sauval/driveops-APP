@@ -1,0 +1,174 @@
+.maintenance-card {
+    background: white;
+    border-radius: 0.75rem;
+    border-left: 4px solid var(--primary-color);
+    padding: 1rem;
+    transition: all 0.3s ease;
+
+    &.status-late {
+        border-left-color: #dc2626;
+    }
+
+    &.status-done {
+        border-left-color: #16a34a;
+    }
+
+    &.status-upcoming {
+        border-left-color: #f59e0b;
+    }
+
+    &:hover {
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        transform: translateY(-2px);
+    }
+
+    .card-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        margin-bottom: 1rem;
+        gap: 1rem;
+
+        .header-left {
+            display: flex;
+            gap: 0.75rem;
+            align-items: flex-start;
+            flex: 1;
+            min-width: 0;
+
+            .maintenance-icon {
+                color: var(--primary-color);
+                font-size: 1.5rem;
+                width: 1.5rem;
+                height: 1.5rem;
+                flex-shrink: 0;
+            }
+
+            .maintenance-info {
+                flex: 1;
+                min-width: 0;
+
+                .maintenance-description {
+                    font-size: 1rem;
+                    font-weight: 600;
+                    color: var(--text-primary);
+                    margin: 0 0 0.25rem 0;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                    white-space: nowrap;
+                }
+
+                .maintenance-type {
+                    font-size: 0.75rem;
+                    color: var(--lighter-gray-color);
+                }
+            }
+        }
+
+        .status-badge {
+            padding: 0.25rem 0.75rem;
+            border-radius: 1rem;
+            font-size: 0.75rem;
+            font-weight: 600;
+            white-space: nowrap;
+            flex-shrink: 0;
+
+            &.badge-upcoming {
+                background-color: #fef3c7;
+                color: #92400e;
+            }
+
+            &.badge-late {
+                background-color: #fee2e2;
+                color: #991b1b;
+            }
+
+            &.badge-done {
+                background-color: #dcfce7;
+                color: #166534;
+            }
+        }
+    }
+
+    .card-body {
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+        margin-bottom: 1rem;
+
+        .info-row {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.875rem;
+
+            .info-icon {
+                font-size: 1rem;
+                width: 1rem;
+                height: 1rem;
+                color: var(--lighter-gray-color);
+            }
+
+            .info-label {
+                color: var(--lighter-gray-color);
+                min-width: 100px;
+            }
+
+            .info-value {
+                font-weight: 500;
+                color: var(--text-primary);
+            }
+        }
+    }
+
+    .card-footer {
+        display: flex;
+        justify-content: flex-end;
+
+        .view-btn {
+            font-size: 0.875rem;
+            padding: 0.25rem 1rem;
+
+            mat-icon {
+                font-size: 1rem;
+                width: 1rem;
+                height: 1rem;
+                margin-right: 0.25rem;
+            }
+
+            &:hover {
+                background-color: var(--primary-light, #e8f5e9);
+                color: var(--primary-color);
+                border-color: var(--primary-color);
+            }
+        }
+    }
+}
+
+/* Dark Theme */
+:host-context(.dark-theme) {
+    .maintenance-card {
+        background-color: #2d2d2d;
+
+        &:hover {
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        }
+
+        .status-badge {
+            &.badge-upcoming {
+                background-color: #78350f;
+                color: #fef3c7;
+            }
+
+            &.badge-late {
+                background-color: #7f1d1d;
+                color: #fee2e2;
+            }
+
+            &.badge-done {
+                background-color: #14532d;
+                color: #dcfce7;
+            }
+        }
+    }
+}

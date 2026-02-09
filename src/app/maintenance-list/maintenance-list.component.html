@@ -1,0 +1,91 @@
+<div class="maintenance-list-container">
+    <div class="page-header">
+        <div class="header-left">
+            <mat-icon class="material-icons-outlined page-icon">build_circle</mat-icon>
+            <div class="header-text">
+                <h1 class="page-title">Entretiens</h1>
+                <p class="page-subtitle">Planifiez et suivez vos entretiens</p>
+            </div>
+        </div>
+        <button mat-raised-button color="primary" routerLink="/maintenances/add">
+            <mat-icon class="material-icons-outlined">add</mat-icon>
+            Planifier un entretien
+        </button>
+    </div>
+
+    <div class="status-chips">
+        <mat-chip-listbox [(ngModel)]="statusFilter" (ngModelChange)="onStatusFilterChange()"
+            aria-label="Status filter">
+            <mat-chip-option value="all" selected>
+                Tous ({{ maintenances.length }})
+            </mat-chip-option>
+            <mat-chip-option value="upcoming" class="chip-upcoming">
+                À venir ({{ getStatusCount('upcoming') }})
+            </mat-chip-option>
+            <mat-chip-option value="late" class="chip-late">
+                En retard ({{ getStatusCount('late') }})
+            </mat-chip-option>
+            <mat-chip-option value="done" class="chip-done">
+                Terminés ({{ getStatusCount('done') }})
+            </mat-chip-option>
+        </mat-chip-listbox>
+    </div>
+
+    <div class="filters-section">
+        <mat-form-field appearance="outline" class="search-field">
+            <mat-label>Rechercher</mat-label>
+            <input matInput [(ngModel)]="searchQuery" (ngModelChange)="onSearchChange()"
+                placeholder="Rechercher dans les descriptions...">
+            <mat-icon matPrefix class="material-icons-outlined">search</mat-icon>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="filter-field">
+            <mat-label>Véhicule</mat-label>
+            <mat-select [(ngModel)]="selectedVehicle" (ngModelChange)="onVehicleFilterChange()">
+                <mat-option value="all">Tous les véhicules</mat-option>
+                <mat-option *ngFor="let vehicle of vehicles" [value]="vehicle.id">
+                    {{ vehicle.name }} ({{ vehicle.brand }} {{ vehicle.model }})
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="filter-field">
+            <mat-label>Trier par</mat-label>
+            <mat-select [(ngModel)]="sortBy" (ngModelChange)="onSortChange()">
+                <mat-option value="date-desc">Date (récent d'abord)</mat-option>
+                <mat-option value="date-asc">Date (ancien d'abord)</mat-option>
+            </mat-select>
+        </mat-form-field>
+    </div>
+
+    <div class="content-section">
+        <div *ngIf="loading" class="loading-state">
+            <p>Chargement des entretiens...</p>
+        </div>
+
+        <div *ngIf="!loading && filteredMaintenances.length === 0 && searchQuery === '' && selectedVehicle === 'all' && statusFilter === 'all'"
+            class="no-data">
+            <app-maintenance-card-list [maintenances]="[]" [showEmptyState]="true"></app-maintenance-card-list>
+        </div>
+
+        <div *ngIf="!loading && filteredMaintenances.length === 0 && (searchQuery !== '' || selectedVehicle !== 'all' || statusFilter !== 'all')"
+            class="no-results">
+            <mat-icon class="material-icons-outlined no-results-icon">search_off</mat-icon>
+            <p class="no-results-message">Aucun entretien ne correspond à vos critères</p>
+            <button mat-stroked-button
+                (click)="searchQuery = ''; selectedVehicle = 'all'; statusFilter = 'all'; applyFilters()">
+                Réinitialiser les filtres
+            </button>
+        </div>
+
+        <div *ngIf="!loading && filteredMaintenances.length > 0" class="maintenances-grid">
+            <app-maintenance-card-list [maintenances]="filteredMaintenances" [showEmptyState]="false">
+            </app-maintenance-card-list>
+
+            <div class="results-count">
+                {{ filteredMaintenances.length }} entretien{{ filteredMaintenances.length > 1 ? 's' : '' }} trouvé{{
+                filteredMaintenances.length > 1 ? 's' : '' }}
+            </div>
+        </div>
+    </div>
+</div>

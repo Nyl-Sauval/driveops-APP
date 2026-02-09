@@ -1,0 +1,155 @@
+<div class="maintenance-detail-container">
+    <!-- Breadcrumb -->
+    <div class="breadcrumb">
+        <a routerLink="/maintenances" class="breadcrumb-link">
+            <mat-icon class="material-icons-outlined">build_circle</mat-icon>
+            Entretiens
+        </a>
+        <mat-icon class="material-icons-outlined breadcrumb-separator">chevron_right</mat-icon>
+        <span class="breadcrumb-current">Détail</span>
+    </div>
+
+    <!-- Loading State -->
+    <div *ngIf="loading" class="loading-state">
+        <mat-icon class="material-icons-outlined loading-icon">build_circle</mat-icon>
+        <p>Chargement de l'entretien...</p>
+    </div>
+
+    <!-- Error State -->
+    <div *ngIf="error && !loading" class="error-state">
+        <mat-icon class="material-icons-outlined error-icon">error_outline</mat-icon>
+        <h2>Entretien introuvable</h2>
+        <p>L'entretien que vous recherchez n'existe pas ou a été supprimé.</p>
+        <button mat-raised-button color="primary" routerLink="/maintenances">
+            <mat-icon class="material-icons-outlined">arrow_back</mat-icon>
+            Retour aux entretiens
+        </button>
+    </div>
+
+    <!-- Maintenance Content -->
+    <div *ngIf="maintenance && !loading && !error" class="maintenance-content">
+        <!-- Header -->
+        <div class="maintenance-header" [class]="'status-' + getStatusClass()">
+            <div class="header-left">
+                <mat-icon class="material-icons-outlined status-icon">{{ getStatusIcon() }}</mat-icon>
+                <div class="header-text">
+                    <h1 class="maintenance-title">{{ maintenance.description || 'Entretien' }}</h1>
+                    <div class="maintenance-meta">
+                        <span class="status-badge" [class]="'badge-' + getStatusClass()">
+                            {{ getStatusLabel() }}
+                        </span>
+                        <span class="type-badge">{{ getTypeLabel() }}</span>
+                    </div>
+                </div>
+            </div>
+            <div class="header-actions">
+                <button *ngIf="!maintenance.done" mat-raised-button color="accent" (click)="markAsDone()">
+                    <mat-icon class="material-icons-outlined">check_circle</mat-icon>
+                    Marquer comme fait
+                </button>
+                <button mat-icon-button [matMenuTriggerFor]="menu">
+                    <mat-icon class="material-icons-outlined">more_vert</mat-icon>
+                </button>
+                <mat-menu #menu="matMenu">
+                    <button mat-menu-item>
+                        <mat-icon class="material-icons-outlined">edit</mat-icon>
+                        <span>Modifier</span>
+                    </button>
+                    <button mat-menu-item (click)="deleteMaintenance()">
+                        <mat-icon class="material-icons-outlined" color="warn">delete</mat-icon>
+                        <span>Supprimer</span>
+                    </button>
+                </mat-menu>
+            </div>
+        </div>
+
+        <!-- Details Grid -->
+        <div class="details-grid">
+            <!-- Planned Information -->
+            <mat-card class="info-card">
+                <mat-card-header>
+                    <mat-card-title>Planification</mat-card-title>
+                </mat-card-header>
+                <mat-card-content>
+                    <div class="info-row">
+                        <mat-icon class="material-icons-outlined">event</mat-icon>
+                        <div class="info-content">
+                            <span class="info-label">Date prévue</span>
+                            <span class="info-value">{{ formatDate(maintenance.scheduled_date) }}</span>
+                        </div>
+                    </div>
+
+                    <div class="info-row" *ngIf="maintenance.scheduled_mileage">
+                        <mat-icon class="material-icons-outlined">speed</mat-icon>
+                        <div class="info-content">
+                            <span class="info-label">Kilométrage prévu</span>
+                            <span class="info-value">{{ maintenance.scheduled_mileage }} km</span>
+                        </div>
+                    </div>
+
+                    <div class="info-row" *ngIf="maintenance.cost">
+                        <mat-icon class="material-icons-outlined">euro</mat-icon>
+                        <div class="info-content">
+                            <span class="info-label">Coût {{ maintenance.done ? 'réel' : 'estimé' }}</span>
+                            <span class="info-value cost">{{ formatCost(maintenance.cost) }}</span>
+                        </div>
+                    </div>
+                </mat-card-content>
+            </mat-card>
+
+            <!-- Actual Information (if done) -->
+            <mat-card class="info-card" *ngIf="maintenance.done">
+                <mat-card-header>
+                    <mat-card-title>Réalisation</mat-card-title>
+                </mat-card-header>
+                <mat-card-content>
+                    <div class="info-row">
+                        <mat-icon class="material-icons-outlined">event_available</mat-icon>
+                        <div class="info-content">
+                            <span class="info-label">Date de réalisation</span>
+                            <span class="info-value">{{ formatDate(maintenance.done_date) }}</span>
+                        </div>
+                    </div>
+
+                    <div class="info-row" *ngIf="maintenance.done_mileage">
+                        <mat-icon class="material-icons-outlined">speed</mat-icon>
+                        <div class="info-content">
+                            <span class="info-label">Kilométrage réel</span>
+                            <span class="info-value">{{ maintenance.done_mileage }} km</span>
+                        </div>
+                    </div>
+                </mat-card-content>
+            </mat-card>
+
+            <!-- Related Vehicles -->
+            <mat-card class="info-card" *ngIf="maintenance.vehicles && maintenance.vehicles.length > 0">
+                <mat-card-header>
+                    <mat-card-title>Véhicules concernés</mat-card-title>
+                </mat-card-header>
+                <mat-card-content>
+                    <mat-chip-listbox>
+                        <mat-chip-option *ngFor="let vehicle of maintenance.vehicles">
+                            <mat-icon matChipAvatar class="material-icons-outlined">directions_car</mat-icon>
+                            {{ vehicle.name }} ({{ vehicle.brand }} {{ vehicle.model }})
+                        </mat-chip-option>
+                    </mat-chip-listbox>
+                </mat-card-content>
+            </mat-card>
+
+            <!-- Related Documents -->
+            <mat-card class="info-card" *ngIf="maintenance.invoices && maintenance.invoices.length > 0">
+                <mat-card-header>
+                    <mat-card-title>Documents associés</mat-card-title>
+                </mat-card-header>
+                <mat-card-content>
+                    <mat-chip-listbox>
+                        <mat-chip-option *ngFor="let invoice of maintenance.invoices">
+                            <mat-icon matChipAvatar class="material-icons-outlined">description</mat-icon>
+                            {{ invoice.description || 'Document' }} - {{ formatCost(invoice.amount) }}
+                        </mat-chip-option>
+                    </mat-chip-listbox>
+                </mat-card-content>
+            </mat-card>
+        </div>
+    </div>
+</div>

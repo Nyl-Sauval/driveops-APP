@@ -1,54 +1,48 @@
-<link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined" rel="stylesheet"><main class="main">
-  <mat-toolbar color="primary">
-    <!-- Logo on the left -->
-    <div class="logo">
-      <div class="logo-icon">DO</div>
-      <span class="logo-text">DriveOps</span>
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined" rel="stylesheet">
+<main class="main">
+  <mat-toolbar color="primary" class="toolbar">
+    <div class="toolbar-background">
+      <!-- Logo on the left -->
+      <div class="logo" routerLink="/dashboard">
+        <div class="logo-icon">DO</div>
+        <span class="logo-text">DriveOps</span>
+      </div>
+
+      <!-- Spacer to push buttons to the right -->
+      <span class="spacer"></span>
+
+      <!-- Buttons on the right -->
+      <!-- Buttons for connected users -->
+      @if (this.isLoggedIn) {
+      <button mat-flat-button class="add_vehicule_button" aria-label="Add Vehicle">
+        <mat-icon class="material-icons-outlined">add</mat-icon>
+        <span>Ajouter véhicule</span>
+      </button>
+      <!--    <button class="buttons" mat-icon-button aria-label="Alerts">-->
+      <!--      <mat-icon class="material-icons-outlined">notifications</mat-icon>-->
+      <!--    </button>-->
+      <!--    <button class="buttons" mat-icon-button aria-label="Settings">-->
+      <!--      <mat-icon class="material-icons-outlined">settings</mat-icon>-->
+      <!--    </button>-->
+      <!--    <button class="buttons" mat-icon-button aria-label="Profile">-->
+      <!--      <mat-icon class="material-icons-outlined">account_circle</mat-icon>-->
+      <!--    </button>-->
+      <button class="buttons" mat-icon-button aria-label="Toggle light/dark theme" (click)="toggleTheme()">
+        <mat-icon class="material-icons-outlined">
+          {{ isDarkTheme ? 'light_mode' : 'dark_mode' }}
+        </mat-icon>
+      </button>
+      <!-- bouton logout -->
+      <button class="buttons" mat-icon-button aria-label="Logout" (click)="logout()">
+        <mat-icon class="material-icons-outlined">logout</mat-icon>
+      </button>
+      } @else {
+      <!-- Buttons for visitors -->
+      <button mat-button routerLink="/login">Se connecter</button>
+      <button mat-button routerLink="/register">S'inscrire</button>
+      }
     </div>
-
-    <!-- Spacer to push buttons to the right -->
-    <span class="spacer"></span>
-
-    <!-- Buttons on the right -->
-    <!-- Buttons for connected users -->
-    @if (this.isLoggedIn) {
-    <button mat-flat-button class="add_vehicule_button" aria-label="Add Vehicle">
-      <mat-icon class="material-icons-outlined">add</mat-icon>
-      <span>Ajouter véhicule</span>
-    </button>
-    <button class="buttons" mat-icon-button aria-label="Alerts">
-      <mat-icon class="material-icons-outlined">notifications</mat-icon>
-    </button>
-    <button class="buttons" mat-icon-button aria-label="Settings">
-      <mat-icon class="material-icons-outlined">settings</mat-icon>
-    </button>
-    <button class="buttons" mat-icon-button aria-label="Profile">
-      <mat-icon class="material-icons-outlined">account_circle</mat-icon>
-    </button>
-    <button class="buttons" mat-icon-button aria-label="Toggle light/dark theme" (click)="toggleTheme()">
-      <mat-icon class="material-icons-outlined">
-        {{ isDarkTheme ? 'light_mode' : 'dark_mode' }}
-      </mat-icon>
-    </button>
-    <!-- bouton logout -->
-    <button class="buttons" mat-icon-button aria-label="Logout" (click)="logout()">
-      <mat-icon class="material-icons-outlined">logout</mat-icon>
-    </button>
-    } @else {
-    <!-- Buttons for visitors -->
-    <button mat-button routerLink="/login">Se connecter</button>
-    <button mat-button routerLink="/register">S'inscrire</button>
-    }
   </mat-toolbar>
 </main>
-
-<!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * -->
-<!-- * * * * * * * * * * * The content above * * * * * * * * * * * * -->
-<!-- * * * * * * * * * * is only a placeholder * * * * * * * * * * * -->
-<!-- * * * * * * * * * * and can be replaced.  * * * * * * * * * * * -->
-<!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * -->
-<!-- * * * * * * * * * * End of Placeholder  * * * * * * * * * * * * -->
-<!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * -->
-
 
 <router-outlet></router-outlet>

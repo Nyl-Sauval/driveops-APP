@@ -1,0 +1,74 @@
+<div class="document-list-container">
+    <div class="page-header">
+        <div class="header-left">
+            <mat-icon class="material-icons-outlined page-icon">description</mat-icon>
+            <div class="header-text">
+                <h1 class="page-title">Documents</h1>
+                <p class="page-subtitle">Gérez vos factures et documents</p>
+            </div>
+        </div>
+        <button mat-raised-button color="primary" routerLink="/documents/add">
+            <mat-icon class="material-icons-outlined">add</mat-icon>
+            Ajouter un document
+        </button>
+    </div>
+
+    <div class="filters-section">
+        <mat-form-field appearance="outline" class="search-field">
+            <mat-label>Rechercher</mat-label>
+            <input matInput [(ngModel)]="searchQuery" (ngModelChange)="onSearchChange()"
+                placeholder="Rechercher dans les descriptions...">
+            <mat-icon matPrefix class="material-icons-outlined">search</mat-icon>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="filter-field">
+            <mat-label>Véhicule</mat-label>
+            <mat-select [(ngModel)]="selectedVehicle" (ngModelChange)="onVehicleFilterChange()">
+                <mat-option value="all">Tous les véhicules</mat-option>
+                <mat-option *ngFor="let vehicle of vehicles" [value]="vehicle.id">
+                    {{ vehicle.name }} ({{ vehicle.brand }} {{ vehicle.model }})
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="filter-field">
+            <mat-label>Trier par</mat-label>
+            <mat-select [(ngModel)]="sortBy" (ngModelChange)="onSortChange()">
+                <mat-option value="date-desc">Date (récent d'abord)</mat-option>
+                <mat-option value="date-asc">Date (ancien d'abord)</mat-option>
+                <mat-option value="amount-desc">Montant (décroissant)</mat-option>
+                <mat-option value="amount-asc">Montant (croissant)</mat-option>
+            </mat-select>
+        </mat-form-field>
+    </div>
+
+    <div class="content-section">
+        <div *ngIf="loading" class="loading-state">
+            <p>Chargement des documents...</p>
+        </div>
+
+        <div *ngIf="!loading && filteredDocuments.length === 0 && searchQuery === '' && selectedVehicle === 'all'"
+            class="no-data">
+            <app-document-card-list [documents]="[]" [showEmptyState]="true"></app-document-card-list>
+        </div>
+
+        <div *ngIf="!loading && filteredDocuments.length === 0 && (searchQuery !== '' || selectedVehicle !== 'all')"
+            class="no-results">
+            <mat-icon class="material-icons-outlined no-results-icon">search_off</mat-icon>
+            <p class="no-results-message">Aucun document ne correspond à vos critères</p>
+            <button mat-stroked-button (click)="searchQuery = ''; selectedVehicle = 'all'; applyFilters()">
+                Réinitialiser les filtres
+            </button>
+        </div>
+
+        <div *ngIf="!loading && filteredDocuments.length > 0" class="documents-grid">
+            <app-document-card-list [documents]="filteredDocuments" [showEmptyState]="false">
+            </app-document-card-list>
+
+            <div class="results-count">
+                {{ filteredDocuments.length }} document{{ filteredDocuments.length > 1 ? 's' : '' }} trouvé{{
+                filteredDocuments.length > 1 ? 's' : '' }}
+            </div>
+        </div>
+    </div>
+</div>

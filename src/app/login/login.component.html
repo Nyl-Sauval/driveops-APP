@@ -1,40 +1,144 @@
-<div class="auth-container">
-  <mat-card class="auth-card">
-    <h1>Se connecter</h1>
+<div class="auth-wrapper">
+  <!-- Left Panel - Branding -->
+  <div class="branding-panel">
+    <div class="branding-content">
+      <!-- Logo -->
+      <div class="logo">
+        <div class="logo-icon">DO</div>
+        <span class="logo-text">DriveOps</span>
+      </div>
 
-    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
-      <mat-form-field appearance="outline" class="full-width">
-        <mat-label>Email</mat-label>
-        <input matInput formControlName="email" type="email" />
-        <mat-error *ngIf="loginForm.get('email')?.hasError('required')">
-          L'email est requis
-        </mat-error>
-        <mat-error *ngIf="loginForm.get('email')?.hasError('email')">
-          Email invalide
-        </mat-error>
-      </mat-form-field>
+      <!-- Hero Section -->
+      <div class="hero">
+        <h1>Le suivi de vos véhicules, simplifie.</h1>
+        <p>Centralisez tous vos entretiens, documents et dépenses automobiles en un seul endroit.</p>
+      </div>
 
-      <mat-form-field appearance="outline" class="full-width">
-        <mat-label>Mot de passe</mat-label>
-        <input matInput formControlName="password" type="password" />
-        <mat-error *ngIf="loginForm.get('password')?.hasError('required')">
-          Le mot de passe est requis
-        </mat-error>
-      </mat-form-field>
+      <!-- Features Grid -->
+      <div class="features-grid">
+        <div class="feature-card">
+          <mat-icon class="material-icons-outlined">directions_car</mat-icon>
+          <h3>Suivi multi-véhicules</h3>
+          <p>Gérez tous vos véhicules depuis un seul tableau de bord.</p>
+        </div>
 
-      <button mat-raised-button color="primary" class="full-width" type="submit">
-        Connexion
-      </button>
-    </form>
+        <div class="feature-card">
+          <mat-icon class="material-icons-outlined">settings</mat-icon>
+          <h3>Entretiens programmés</h3>
+          <p>Planifiez et recevez des rappels pour vos entretiens.</p>
+        </div>
 
-    <div class="divider">ou</div>
+        <div class="feature-card">
+          <mat-icon class="material-icons-outlined">description</mat-icon>
+          <h3>Gestion documentaire</h3>
+          <p>Stockez factures, contrôles techniques et assurances.</p>
+        </div>
 
-    <button mat-raised-button class="google-btn">
-      Se connecter avec Google
-    </button>
+        <div class="feature-card">
+          <mat-icon class="material-icons-outlined">shield</mat-icon>
+          <h3>Données sécurisées</h3>
+          <p>Vos informations sont chiffrées et protégées.</p>
+        </div>
+      </div>
 
-    <p class="redirect">
-      Pas encore de compte ? <a routerLink="/register">Inscrivez-vous</a>
-    </p>
-  </mat-card>
+      <!-- Footer -->
+      <div class="branding-footer">
+        <p>DriveOps 2026. Tous droits réservés.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Right Panel - Form -->
+  <div class="form-panel">
+    <div class="form-content">
+      <!-- Tabs -->
+      <div class="auth-tabs">
+        <div class="tab active">Connexion</div>
+        <div class="tab" routerLink="/register">Inscription</div>
+      </div>
+
+      <!-- Form Title -->
+      <div class="form-header">
+        <h2>Bon retour parmi nous</h2>
+        <p>Connectez-vous pour accéder à votre espace véhicules.</p>
+      </div>
+
+      <!-- Login Form -->
+      <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+        <!-- Email Field -->
+        <div class="form-group">
+          <label>Adresse e-mail</label>
+          <div class="input-wrapper">
+            <mat-icon class="material-icons-outlined">email</mat-icon>
+            <input type="email" formControlName="email" placeholder="vous@exemple.com">
+          </div>
+          <div class="error" *ngIf="loginForm.get('email')?.hasError('required') && loginForm.get('email')?.touched">
+            L'email est requis
+          </div>
+          <div class="error" *ngIf="loginForm.get('email')?.hasError('email') && loginForm.get('email')?.touched">
+            Email invalide
+          </div>
+        </div>
+
+        <!-- Password Field -->
+        <div class="form-group">
+          <div class="label-row">
+            <label>Mot de passe</label>
+            <a href="#" class="forgot-link">Mot de passe oublié ?</a>
+          </div>
+          <div class="input-wrapper">
+            <mat-icon class="material-icons-outlined">lock</mat-icon>
+            <input [type]="hidePassword ? 'password' : 'text'" formControlName="password"
+              placeholder="Entrez votre mot de passe">
+            <button type="button" class="toggle-password" (click)="hidePassword = !hidePassword">
+              <mat-icon class="material-icons-outlined">{{ hidePassword ? 'visibility_off' : 'visibility' }}</mat-icon>
+            </button>
+          </div>
+          <div class="error"
+            *ngIf="loginForm.get('password')?.hasError('required') && loginForm.get('password')?.touched">
+            Le mot de passe est requis
+          </div>
+        </div>
+
+        <!-- Remember Me -->
+        <div class="remember-me">
+          <input type="checkbox" id="remember" formControlName="rememberMe">
+          <label for="remember">Se souvenir de moi</label>
+        </div>
+
+        <!-- Submit Button -->
+        <button type="submit" class="submit-btn" [disabled]="loginForm.invalid">
+          Se connecter
+          <mat-icon class="material-icons-outlined">arrow_forward</mat-icon>
+        </button>
+      </form>
+
+      <!-- Divider -->
+      <div class="divider">
+        <span>ou continuer avec</span>
+      </div>
+
+      <!-- OAuth Buttons -->
+      <div class="oauth-buttons">
+        <button type="button" class="oauth-btn google-btn">
+          <svg width="18" height="18" viewBox="0 0 18 18">
+            <path fill="#4285F4"
+              d="M17.64 9.2c0-.637-.057-1.251-.164-1.84H9v3.481h4.844c-.209 1.125-.843 2.078-1.796 2.717v2.258h2.908c1.702-1.567 2.684-3.874 2.684-6.615z" />
+            <path fill="#34A853"
+              d="M9 18c2.43 0 4.467-.806 5.956-2.184l-2.908-2.258c-.806.54-1.837.86-3.048.86-2.344 0-4.328-1.584-5.036-3.711H.957v2.332C2.438 15.983 5.482 18 9 18z" />
+            <path fill="#FBBC05"
+              d="M3.964 10.707c-.18-.54-.282-1.117-.282-1.707s.102-1.167.282-1.707V4.961H.957C.347 6.175 0 7.55 0 9s.348 2.825.957 4.039l3.007-2.332z" />
+            <path fill="#EA4335"
+              d="M9 3.58c1.321 0 2.508.454 3.44 1.345l2.582-2.58C13.463.891 11.426 0 9 0 5.482 0 2.438 2.017.957 4.961L3.964 7.29C4.672 5.163 6.656 3.58 9 3.58z" />
+          </svg>
+          Google
+        </button>
+
+        <button type="button" class="oauth-btn github-btn">
+          <mat-icon class="material-icons-outlined">code</mat-icon>
+          GitHub
+        </button>
+      </div>
+    </div>
+  </div>
 </div>

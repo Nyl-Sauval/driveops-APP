@@ -1,12 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
-import {Router, RouterLink} from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { NgIf } from '@angular/common';
-import { MatButton } from '@angular/material/button';
-import {MatInput, MatInputModule} from '@angular/material/input';
-import { MatCard } from '@angular/material/card';
 import { MatIcon } from '@angular/material/icon';
-import { MatFormField } from '@angular/material/form-field';
 import { AuthService } from '../services/auth.service';
 
 declare const google: any;
@@ -15,29 +11,30 @@ declare const google: any;
   selector: 'app-login',
   templateUrl: './login.component.html',
   imports: [
-    MatButton,
-    MatInput,
-    MatCard,
-    MatFormField,
     ReactiveFormsModule,
     NgIf,
     RouterLink,
-    MatInputModule,
+    MatIcon,
   ],
   styleUrls: ['./login.component.scss']
 })
 export class LoginComponent implements OnInit {
   loginForm: FormGroup;
   errorMessage: string | null = null;
+  hidePassword = true;
 
   constructor(private fb: FormBuilder, private authService: AuthService, private router: Router) {
     this.loginForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
-      password: ['', [Validators.required, Validators.minLength(6)]]
+      password: ['', [Validators.required, Validators.minLength(6)]],
+      rememberMe: [false]
     });
   }
 
   ngOnInit() {
+    // Check if user has a saved session
+    this.checkSavedSession();
+
     // Initialisation Google Auth
     /*
     google.accounts.id.initialize({
@@ -51,15 +48,41 @@ export class LoginComponent implements OnInit {
     );*/
   }
 
+  /** Check if user has saved credentials */
+  private checkSavedSession() {
+    const savedToken = localStorage.getItem('authToken');
+    if (savedToken) {
+      // Verify token is still valid and auto-login
+      this.authService.verifyToken(savedToken).subscribe({
+        next: (isValid: boolean) => {
+          if (isValid) {
+            this.router.navigate(['/dashboard']);
+          } else {
+            localStorage.removeItem('authToken');
+          }
+        },
+        error: () => {
+          localStorage.removeItem('authToken');
+        }
+      });
+    }
+  }
+
   /** 🔹 Login classique */
   onSubmit() {
     if (!this.loginForm.valid) return;
 
-    const { email, password } = this.loginForm.value;
+    const { email, password, rememberMe } = this.loginForm.value;
 
-    this.authService.loginWithEmail(email, password).subscribe( res => {
-      console.log('Login successful', res.user);
-      // rediriger vers la page d'accueil ou tableau de bord
+    this.authService.loginWithEmail(email, password).subscribe(res => {
+      // If remember me is checked, save token to localStorage
+      if (rememberMe && res.token) {
+        localStorage.setItem('authToken', res.token);
+      } else {
+        // Clear any existing token if not checking remember me
+        localStorage.removeItem('authToken');
+      }
+
       this.router.navigate(['/dashboard']);
     });
   }

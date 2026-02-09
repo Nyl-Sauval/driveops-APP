@@ -1,49 +1,91 @@
-<div class="landing-container">
-  <!-- Hero Section -->
-  <section class="hero">
-    <h2 class="title">Tableau de bord DriveOps</h2>
-    <p class="subtitle">Gérez vos véhicules et leurs entretiens en toute simplicité</p>
-  </section>
+<div class="dashboard-container">
+  <!-- Main Content -->
+  <div class="main-content">
+    <!-- Hero Section -->
+    <section class="hero">
+      <h2 class="title">Tableau de bord DriveOps</h2>
+      <p class="subtitle">Gérez vos véhicules et leurs entretiens en toute simplicité</p>
+    </section>
 
-  <!-- Resume Cards Section -->
-  <section class="resume-cards">
-    <app-resume-card
-      class="resume-card"
-      title="Véhicules"
-      icon="directions_car"
-      [value]="resumeCardVehicleValue ?? '...'"
-      color="#0a6802"
-      subtitle="Véhicules enregistrés"
-    />
+    <!-- Resume Cards Section -->
+    <section class="resume-cards">
+      <app-resume-card class="resume-card clickable" title="Véhicules" icon="directions_car"
+        [value]="loading ? '...' : (resumeCardVehicleValue ?? '...')" color="#0a6802" subtitle="Véhicules enregistrés"
+        routerLink="/vehicles" />
 
-    <app-resume-card
-      class="resume-card"
-      title="Entretiens à venir"
-      icon="build"
-      [value]="resumeCardMaintenanceValue ?? '...'"
-      color="#f39c12"
-      subtitle="Dans les 30 prochains jours"
-    />
+      <app-resume-card class="resume-card" title="Entretiens à venir" icon="build"
+        [value]="loading ? '...' : (resumeCardMaintenanceValue ?? '...')" color="#f39c12"
+        subtitle="Dans les 30 prochains jours" />
 
-    <app-resume-card
-      class="resume-card"
-      title="Documents"
-      icon="description"
-      [value]="resumeCardInvoicesValue ?? '...'"
-      color="#2980b9"
-      subtitle="Factures et documents"
-    />
+      <app-resume-card class="resume-card" title="Documents" icon="description"
+        [value]="loading ? '...' : (resumeCardInvoicesValue ?? '...')" color="#2980b9"
+        subtitle="Factures et documents" />
 
-    <app-resume-card
-      class="resume-card"
-      title="Alertes"
-      icon="warning"
-      [value]="resumeCardAlertsValue ?? '...'"
-      color="#c0392b"
-      subtitle="Entretiens en retards"
-    />
-    <ng-template #loading>
-      <app-resume-card [loading]="true"></app-resume-card>
-    </ng-template>
-  </section>
+      <app-resume-card class="resume-card" title="Alertes" icon="warning"
+        [value]="loading ? '...' : (resumeCardAlertsValue ?? '...')" color="#c0392b" subtitle="Entretiens en retards" />
+    </section>
+
+    <!-- Vehicles List Section -->
+    <section class="vehicles-section">
+      <div class="section-header">
+        <div class="header-left">
+          <mat-icon class="material-icons-outlined">directions_car</mat-icon>
+          <h3 class="section-title">Mes véhicules</h3>
+        </div>
+        <button class="view-all-button" mat-stroked-button color="primary" routerLink="/vehicles">
+          Voir tout
+        </button>
+      </div>
+
+      <div *ngIf="loading" class="loading-state">
+        <p>Chargement des véhicules...</p>
+      </div>
+
+      <app-vehicle-card-list *ngIf="!loading" [vehicles]="vehicles" [maxDisplay]="3"></app-vehicle-card-list>
+    </section>
+  </div>
+
+  <!-- Sidebar (Desktop only) -->
+  <div class="sidebar">
+    <!-- Documents Section -->
+    <section class="sidebar-section documents-section">
+      <div class="section-header">
+        <div class="header-left">
+          <mat-icon class="material-icons-outlined">description</mat-icon>
+          <h3 class="section-title">Documents récents</h3>
+        </div>
+        <button class="view-all-button" mat-stroked-button color="primary" routerLink="/documents">
+          Voir tout
+        </button>
+      </div>
+
+      <div *ngIf="loading" class="loading-state">
+        <p>Chargement...</p>
+      </div>
+
+      <app-document-card-list *ngIf="!loading" [documents]="recentDocuments" [maxDisplay]="3" [showEmptyState]="true">
+      </app-document-card-list>
+    </section>
+
+    <!-- Maintenances Section -->
+    <section class="sidebar-section maintenances-section">
+      <div class="section-header">
+        <div class="header-left">
+          <mat-icon class="material-icons-outlined">build_circle</mat-icon>
+          <h3 class="section-title">Entretiens à venir</h3>
+        </div>
+        <button class="view-all-button" mat-stroked-button color="primary" routerLink="/maintenances">
+          Voir tout
+        </button>
+      </div>
+
+      <div *ngIf="loading" class="loading-state">
+        <p>Chargement...</p>
+      </div>
+
+      <app-maintenance-card-list *ngIf="!loading" [maintenances]="upcomingMaintenances" [maxDisplay]="3"
+        [showEmptyState]="true">
+      </app-maintenance-card-list>
+    </section>
+  </div>
 </div>

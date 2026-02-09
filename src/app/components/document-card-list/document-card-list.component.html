@@ -1,0 +1,17 @@
+<div class="document-list">
+    <div *ngIf="displayedDocuments.length > 0; else emptyState" class="documents-container">
+        <app-document-card *ngFor="let document of displayedDocuments" [document]="document">
+        </app-document-card>
+    </div>
+
+    <ng-template #emptyState>
+        <div *ngIf="showEmptyState" class="empty-state">
+            <mat-icon class="material-icons-outlined empty-icon">receipt_long</mat-icon>
+            <p class="empty-message">Aucun document pour le moment</p>
+            <button mat-raised-button color="primary" routerLink="/documents/add">
+                <mat-icon class="material-icons-outlined">add</mat-icon>
+                Ajouter un document
+            </button>
+        </div>
+    </ng-template>
+</div>

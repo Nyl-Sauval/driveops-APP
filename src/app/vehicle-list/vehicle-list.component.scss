@@ -1,0 +1,41 @@
+.container {
+    padding: 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+
+    .header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 2rem;
+
+        h1 {
+            font-family: var(--font-serif), serif;
+            color: var(--primary-color);
+            margin: 0;
+        }
+
+        button {
+            border-radius: 0.75rem;
+        }
+    }
+
+    .card-container {
+        background-color: var(--toolbar-background-color);
+        padding: 2rem;
+        border-radius: 1rem;
+
+        .loading-state {
+            text-align: center;
+            padding: 3rem;
+            color: var(--lighter-gray-color);
+        }
+    }
+}
+
+/* Dark Theme */
+:host-context(.dark-theme) {
+    .card-container {
+        background-color: #2d2d2d;
+    }
+}

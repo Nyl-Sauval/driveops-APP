@@ -1,0 +1,17 @@
+<div class="container">
+    <div class="header">
+        <h1>Mes Véhicules</h1>
+        <button mat-raised-button color="primary" routerLink="/vehicles/add">
+            <mat-icon class="material-icons-outlined">add</mat-icon>
+            Ajouter un véhicule
+        </button>
+    </div>
+
+    <mat-card class="card-container">
+        <div class="loading-state" *ngIf="loading">
+            <p>Chargement des véhicules...</p>
+        </div>
+
+        <app-vehicle-card-list *ngIf="!loading" [vehicles]="vehicles" [showEmptyState]="true"></app-vehicle-card-list>
+    </mat-card>
+</div>

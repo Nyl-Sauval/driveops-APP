@@ -1,0 +1,108 @@
+<div class="form-container">
+    <div class="form-header">
+        <button mat-icon-button routerLink="/vehicles" class="back-button">
+            <mat-icon class="material-icons-outlined">arrow_back</mat-icon>
+        </button>
+        <div class="header-text">
+            <h2 class="title">{{ isEditMode ? 'Modifier' : 'Ajouter' }} un véhicule</h2>
+            <p class="subtitle">Complétez les informations pour suivre l'entretien de votre véhicule</p>
+        </div>
+    </div>
+
+    <form [formGroup]="vehicleForm" (ngSubmit)="onSubmit()" class="vehicle-form">
+        <!-- Informations Générales -->
+        <section class="form-section">
+            <div class="section-header">
+                <mat-icon class="material-icons-outlined">info_outline</mat-icon>
+                <h3>Informations générales</h3>
+            </div>
+            <div class="form-grid">
+                <mat-form-field appearance="outline" class="full-width">
+                    <mat-label>Nom du véhicule</mat-label>
+                    <input matInput formControlName="name" placeholder="Ex: Ma Clio, Voiture de fonction..." required>
+                    <mat-hint>Un nom pour identifier facilement votre véhicule</mat-hint>
+                    <mat-error *ngIf="vehicleForm.get('name')?.hasError('required')">Le nom est obligatoire</mat-error>
+                </mat-form-field>
+
+                <div class="row">
+                    <mat-form-field appearance="outline">
+                        <mat-label>Marque</mat-label>
+                        <input matInput formControlName="brand" placeholder="Ex: Peugeot" required>
+                        <mat-error *ngIf="vehicleForm.get('brand')?.hasError('required')">La marque est
+                            obligatoire</mat-error>
+                    </mat-form-field>
+
+                    <mat-form-field appearance="outline">
+                        <mat-label>Modèle</mat-label>
+                        <input matInput formControlName="model" placeholder="Ex: 208" required>
+                        <mat-error *ngIf="vehicleForm.get('model')?.hasError('required')">Le modèle est
+                            obligatoire</mat-error>
+                    </mat-form-field>
+
+                    <mat-form-field appearance="outline">
+                        <mat-label>Année</mat-label>
+                        <input matInput type="number" formControlName="year" placeholder="Ex: 2022" required>
+                        <mat-error *ngIf="vehicleForm.get('year')?.hasError('required')">L'année est
+                            obligatoire</mat-error>
+                        <mat-error
+                            *ngIf="vehicleForm.get('year')?.hasError('min') || vehicleForm.get('year')?.hasError('max')">Année
+                            invalide</mat-error>
+                    </mat-form-field>
+                </div>
+            </div>
+        </section>
+
+        <!-- Identification -->
+        <section class="form-section">
+            <div class="section-header">
+                <mat-icon class="material-icons-outlined">fingerprint</mat-icon>
+                <h3>Identification</h3>
+            </div>
+            <div class="form-grid">
+                <div class="row">
+                    <mat-form-field appearance="outline">
+                        <mat-label>Immatriculation</mat-label>
+                        <input matInput formControlName="license_plate" placeholder="Ex: AB-123-CD" required>
+                        <mat-error *ngIf="vehicleForm.get('license_plate')?.hasError('required')">L'immatriculation est
+                            obligatoire</mat-error>
+                    </mat-form-field>
+                </div>
+            </div>
+        </section>
+
+        <!-- Suivi -->
+        <section class="form-section">
+            <div class="section-header">
+                <mat-icon class="material-icons-outlined">speed</mat-icon>
+                <h3>Suivi et état</h3>
+            </div>
+            <div class="form-grid">
+                <div class="row">
+                    <mat-form-field appearance="outline">
+                        <mat-label>Kilométrage actuel</mat-label>
+                        <input matInput type="number" formControlName="mileage" placeholder="0">
+                        <span matSuffix>km</span>
+                        <mat-error *ngIf="vehicleForm.get('mileage')?.hasError('min')">Ne peut pas être
+                            négatif</mat-error>
+                    </mat-form-field>
+
+                    <mat-form-field appearance="outline">
+                        <mat-label>Date de mise en circulation / achat</mat-label>
+                        <input matInput type="date" formControlName="purchase_date">
+                    </mat-form-field>
+                </div>
+            </div>
+        </section>
+
+        <div class="form-actions">
+            <button mat-button type="button" routerLink="/vehicles" class="cancel-button">Annuler</button>
+            <button mat-flat-button color="primary" type="submit" [disabled]="vehicleForm.invalid || loading"
+                class="submit-button">
+                <mat-icon class="material-icons-outlined" *ngIf="!loading">{{ isEditMode ? 'save' : 'add' }}</mat-icon>
+                <mat-spinner diameter="20" *ngIf="loading"></mat-spinner>
+                {{ loading ? 'Enregistrement...' : (isEditMode ? 'Enregistrer les modifications' : 'Ajouter le
+                véhicule') }}
+            </button>
+        </div>
+    </form>
+</div>

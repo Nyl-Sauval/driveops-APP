@@ -1,0 +1,183 @@
+.maintenance-list-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem;
+
+    .page-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 2rem;
+        flex-wrap: wrap;
+        gap: 1rem;
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+
+            .page-icon {
+                font-size: 3rem;
+                width: 3rem;
+                height: 3rem;
+                color: var(--primary-color);
+            }
+
+            .header-text {
+                .page-title {
+                    font-family: var(--font-serif), serif;
+                    font-size: 2rem;
+                    margin: 0;
+                    color: var(--text-primary);
+                }
+
+                .page-subtitle {
+                    font-size: 1rem;
+                    margin: 0.25rem 0 0 0;
+                    color: var(--lighter-gray-color);
+                }
+            }
+        }
+
+        button {
+            mat-icon {
+                margin-right: 0.5rem;
+            }
+        }
+    }
+
+    .status-chips {
+        margin-bottom: 1.5rem;
+
+        mat-chip-listbox {
+            --mdc-chip-container-height: 36px;
+        }
+
+        mat-chip-option {
+            &.chip-upcoming {
+                --mdc-chip-selected-container-color: #fef3c7;
+                --mdc-chip-label-text-color: #92400e;
+            }
+
+            &.chip-late {
+                --mdc-chip-selected-container-color: #fee2e2;
+                --mdc-chip-label-text-color: #991b1b;
+            }
+
+            &.chip-done {
+                --mdc-chip-selected-container-color: #dcfce7;
+                --mdc-chip-label-text-color: #166534;
+            }
+        }
+    }
+
+    .filters-section {
+        display: flex;
+        gap: 1rem;
+        margin-bottom: 2rem;
+        flex-wrap: wrap;
+
+        .search-field {
+            flex: 1;
+            min-width: 250px;
+        }
+
+        .filter-field {
+            min-width: 200px;
+        }
+    }
+
+    .content-section {
+        .loading-state {
+            text-align: center;
+            padding: 3rem;
+            color: var(--lighter-gray-color);
+            font-size: 1.1rem;
+        }
+
+        .no-results {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 3rem 1rem;
+            text-align: center;
+            background: white;
+            border-radius: 0.5rem;
+
+            .no-results-icon {
+                font-size: 4rem;
+                width: 4rem;
+                height: 4rem;
+                color: var(--lighter-gray-color);
+                margin-bottom: 1rem;
+            }
+
+            .no-results-message {
+                font-size: 1rem;
+                color: var(--lighter-gray-color);
+                margin-bottom: 1.5rem;
+            }
+        }
+
+        .maintenances-grid {
+            .results-count {
+                margin-top: 1.5rem;
+                text-align: center;
+                color: var(--lighter-gray-color);
+                font-size: 0.875rem;
+            }
+        }
+    }
+}
+
+/* Responsive */
+@media (width < 768px) {
+    .maintenance-list-container {
+        padding: 1rem;
+
+        .page-header {
+            flex-direction: column;
+            align-items: flex-start;
+
+            button {
+                width: 100%;
+            }
+        }
+
+        .filters-section {
+            flex-direction: column;
+
+            .search-field,
+            .filter-field {
+                width: 100%;
+            }
+        }
+    }
+}
+
+/* Dark Theme */
+:host-context(.dark-theme) {
+    .no-results {
+        background-color: #2d2d2d;
+    }
+
+    .status-chips {
+        mat-chip-option {
+            &.chip-upcoming {
+                --mdc-chip-selected-container-color: #78350f;
+                --mdc-chip-label-text-color: #fef3c7;
+            }
+
+            &.chip-late {
+                --mdc-chip-selected-container-color: #7f1d1d;
+                --mdc-chip-label-text-color: #fee2e2;
+            }
+
+            &.chip-done {
+                --mdc-chip-selected-container-color: #14532d;
+                --mdc-chip-label-text-color: #dcfce7;
+            }
+        }
+    }
+}

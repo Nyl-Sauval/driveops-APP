@@ -1,0 +1,41 @@
+<div class="maintenance-card" [class]="'status-' + getStatusClass()">
+    <div class="card-header">
+        <div class="header-left">
+            <mat-icon class="material-icons-outlined maintenance-icon">{{ getStatusIcon() }}</mat-icon>
+            <div class="maintenance-info">
+                <h4 class="maintenance-description">{{ maintenance.description || 'Entretien' }}</h4>
+                <span class="maintenance-type">{{ getTypeLabel() }}</span>
+            </div>
+        </div>
+        <span class="status-badge" [class]="'badge-' + getStatusClass()">
+            {{ getStatusLabel() }}
+        </span>
+    </div>
+
+    <div class="card-body">
+        <div class="info-row">
+            <mat-icon class="material-icons-outlined info-icon">event</mat-icon>
+            <span class="info-label">Date prévue :</span>
+            <span class="info-value">{{ formatDate(maintenance.scheduled_date) }}</span>
+        </div>
+
+        <div class="info-row" *ngIf="maintenance.scheduled_mileage">
+            <mat-icon class="material-icons-outlined info-icon">speed</mat-icon>
+            <span class="info-label">Kilométrage :</span>
+            <span class="info-value">{{ maintenance.scheduled_mileage }} km</span>
+        </div>
+
+        <div class="info-row" *ngIf="maintenance.cost">
+            <mat-icon class="material-icons-outlined info-icon">euro</mat-icon>
+            <span class="info-label">Coût :</span>
+            <span class="info-value">{{ formatCost(maintenance.cost) }}</span>
+        </div>
+    </div>
+
+    <div class="card-footer">
+        <button mat-stroked-button [routerLink]="['/maintenances', maintenance.id]" class="view-btn">
+            <mat-icon class="material-icons-outlined">visibility</mat-icon>
+            Voir
+        </button>
+    </div>
+</div>

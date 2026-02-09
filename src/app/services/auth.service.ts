@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import {BehaviorSubject, Observable, of, switchMap, throwError} from 'rxjs';
+import { BehaviorSubject, Observable, of, switchMap, throwError } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
-import {Router} from '@angular/router';
-import {API_CONFIG} from '../config/api.config';
+import { Router } from '@angular/router';
+import { API_CONFIG } from '../config/api.config';
+import { AuthResponse, User } from '../models/models';
 
 @Injectable({
   providedIn: 'root',
@@ -11,15 +12,15 @@ import {API_CONFIG} from '../config/api.config';
 export class AuthService {
   private apiUrl = API_CONFIG.apiUrl;
 
-  private currentUserSubject = new BehaviorSubject<any>(null);
+  private currentUserSubject = new BehaviorSubject<User | null>(null);
   public currentUser$ = this.currentUserSubject.asObservable();
 
-  constructor(private http: HttpClient, private router: Router) {}
+  constructor(private http: HttpClient, private router: Router) { }
 
   /** 🔹 Register classique avec email/mot de passe */
 
-   registerWithEmail(firstName: string, lastName: string, email: string, password: string, password_confirmation: string): Observable<any> {
-    return this.http.post<{ user: any, token: string, expires_in: number }>(
+  registerWithEmail(firstName: string, lastName: string, email: string, password: string, password_confirmation: string): Observable<AuthResponse> {
+    return this.http.post<AuthResponse>(
       `${this.apiUrl}/register`,
       { firstName, lastName, email, password, password_confirmation }
     ).pipe(
@@ -33,8 +34,8 @@ export class AuthService {
   }
 
   /** 🔹 Login classique avec email/mot de passe */
-  loginWithEmail(email: string, password: string): Observable<any> {
-    return this.http.post<{ user: any, token: string, expires_in: number }>(
+  loginWithEmail(email: string, password: string): Observable<AuthResponse> {
+    return this.http.post<AuthResponse>(
       `${this.apiUrl}/login`,
       { email, password }
     ).pipe(
@@ -51,16 +52,14 @@ export class AuthService {
   logout() {
     localStorage.removeItem('access_token');
     localStorage.removeItem('expires_at');
+    localStorage.removeItem('authToken'); // Remove remember me token
     this.setAuthenticated(null);
-    console.log('User logged out, token removed');
     this.router.navigate(['/guest']);
   }
 
   isTokenValid(): boolean {
     const token = localStorage.getItem('access_token');
     const expires = localStorage.getItem('expires_at');
-    console.log('Token validity check:', { token, expires });
-    console.log('Le token expire dans :', expires ? new Date(+expires) : 'Jamais');
     return !!token && (!!expires ? Date.now() < +expires : true);
   }
 
@@ -68,28 +67,24 @@ export class AuthService {
     return this.isTokenValid();
   }
 
-  setAuthenticated(user: any) {
+  setAuthenticated(user: User | null) {
     this.currentUserSubject.next(user);
   }
 
-  getMe(): Observable<any> {
-    console.log('Fetching current user data from /me endpoint');
+  getMe(): Observable<User | null> {
     const token = localStorage.getItem('access_token');
-    console.log('Current token:', token);
 
     if (!this.isTokenValid() || !token) {
-      console.log('Token is invalid or missing, logging out');
       this.logout();
       return of(null); // renvoie un flux vide plutôt qu'une erreur
     }
 
     const headers = new HttpHeaders({ Authorization: `Bearer ${token}` });
 
-    return this.http.get(`${this.apiUrl}/me`, { headers }).pipe(
+    return this.http.get<User>(`${this.apiUrl}/me`, { headers }).pipe(
       tap(user => {
         // Met à jour le BehaviorSubject pour les composants abonnés
         this.currentUserSubject.next(user);
-        console.log('User data updated from /me endpoint', user);
       }),
       catchError(err => {
         if (err.status === 401) {
@@ -98,6 +93,21 @@ export class AuthService {
         }
         return throwError(() => err);
       })
+    );
+  }
+
+  /** Verify if a token is still valid */
+  verifyToken(token: string): Observable<boolean> {
+    const headers = new HttpHeaders({ Authorization: `Bearer ${token}` });
+
+    return this.http.get<User>(`${this.apiUrl}/me`, { headers }).pipe(
+      tap(user => {
+        // Token is valid, set user
+        localStorage.setItem('access_token', token);
+        this.currentUserSubject.next(user);
+      }),
+      switchMap(() => of(true)),
+      catchError(() => of(false))
     );
   }
 }

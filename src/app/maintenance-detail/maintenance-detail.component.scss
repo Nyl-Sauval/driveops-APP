@@ -1,0 +1,317 @@
+.maintenance-detail-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem;
+
+    .breadcrumb {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        margin-bottom: 2rem;
+        font-size: 0.875rem;
+
+        .breadcrumb-link {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--primary-color);
+            text-decoration: none;
+            transition: opacity 0.2s;
+
+            &:hover {
+                opacity: 0.7;
+            }
+
+            mat-icon {
+                font-size: 1.25rem;
+                width: 1.25rem;
+                height: 1.25rem;
+            }
+        }
+
+        .breadcrumb-separator {
+            color: var(--lighter-gray-color);
+            font-size: 1rem;
+            width: 1rem;
+            height: 1rem;
+        }
+
+        .breadcrumb-current {
+            color: var(--text-primary);
+        }
+    }
+
+    .loading-state,
+    .error-state {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding: 4rem 2rem;
+        text-align: center;
+
+        .error-icon {
+            font-size: 4rem;
+            width: 4rem;
+            height: 4rem;
+            color: #dc2626;
+            margin-bottom: 1rem;
+        }
+
+        h2 {
+            margin: 0 0 0.5rem 0;
+            font-size: 1.5rem;
+            color: var(--text-primary);
+        }
+
+        p {
+            margin: 0 0 1.5rem 0;
+            color: var(--lighter-gray-color);
+        }
+
+        button mat-icon {
+            margin-right: 0.5rem;
+        }
+    }
+
+    .maintenance-content {
+        .maintenance-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 2rem;
+            padding: 1.5rem;
+            background: white;
+            border-radius: 1rem;
+            border-left: 4px solid var(--primary-color);
+            gap: 1rem;
+            flex-wrap: wrap;
+
+            &.status-late {
+                border-left-color: #dc2626;
+            }
+
+            &.status-done {
+                border-left-color: #16a34a;
+            }
+
+            &.status-upcoming {
+                border-left-color: #f59e0b;
+            }
+
+            .header-left {
+                display: flex;
+                gap: 1rem;
+                align-items: center;
+                flex: 1;
+                min-width: 0;
+
+                .status-icon {
+                    font-size: 3rem;
+                    width: 3rem;
+                    height: 3rem;
+                    color: var(--primary-color);
+                    flex-shrink: 0;
+                }
+
+                .header-text {
+                    flex: 1;
+                    min-width: 0;
+
+                    .maintenance-title {
+                        font-family: var(--font-serif), serif;
+                        font-size: 1.75rem;
+                        margin: 0 0 0.5rem 0;
+                        color: var(--text-primary);
+                    }
+
+                    .maintenance-meta {
+                        display: flex;
+                        gap: 0.5rem;
+                        flex-wrap: wrap;
+
+                        .status-badge,
+                        .type-badge {
+                            padding: 0.25rem 0.75rem;
+                            border-radius: 1rem;
+                            font-size: 0.75rem;
+                            font-weight: 600;
+                        }
+
+                        .status-badge {
+                            &.badge-upcoming {
+                                background-color: #fef3c7;
+                                color: #92400e;
+                            }
+
+                            &.badge-late {
+                                background-color: #fee2e2;
+                                color: #991b1b;
+                            }
+
+                            &.badge-done {
+                                background-color: #dcfce7;
+                                color: #166534;
+                            }
+                        }
+
+                        .type-badge {
+                            background-color: #e5e7eb;
+                            color: #6b7280;
+                        }
+                    }
+                }
+            }
+
+            .header-actions {
+                display: flex;
+                gap: 0.5rem;
+                align-items: center;
+
+                button mat-icon {
+                    margin-right: 0.5rem;
+                }
+            }
+        }
+
+        .details-grid {
+            display: grid;
+            gap: 1.5rem;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+
+            .info-card {
+                mat-card-header {
+                    margin-bottom: 1rem;
+
+                    mat-card-title {
+                        font-family: var(--font-serif), serif;
+                        font-size: 1.25rem;
+                    }
+                }
+
+                mat-card-content {
+                    .info-row {
+                        display: flex;
+                        gap: 1rem;
+                        align-items: flex-start;
+                        padding: 1rem 0;
+                        border-bottom: 1px solid #e5e7eb;
+
+                        &:last-child {
+                            border-bottom: none;
+                        }
+
+                        mat-icon {
+                            color: var(--primary-color);
+                            font-size: 1.5rem;
+                            width: 1.5rem;
+                            height: 1.5rem;
+                            flex-shrink: 0;
+                        }
+
+                        .info-content {
+                            flex: 1;
+                            display: flex;
+                            flex-direction: column;
+                            gap: 0.25rem;
+
+                            .info-label {
+                                font-size: 0.75rem;
+                                color: var(--lighter-gray-color);
+                                text-transform: uppercase;
+                                font-weight: 600;
+                            }
+
+                            .info-value {
+                                font-size: 1rem;
+                                color: var(--text-primary);
+
+                                &.cost {
+                                    font-size: 1.25rem;
+                                    font-weight: 700;
+                                    color: var(--primary-color);
+                                }
+                            }
+                        }
+                    }
+
+                    mat-chip-listbox {
+                        display: flex;
+                        flex-wrap: wrap;
+                        gap: 0.5rem;
+                    }
+                }
+            }
+        }
+    }
+}
+
+/* Responsive */
+@media (width < 768px) {
+    .maintenance-detail-container {
+        padding: 1rem;
+
+        .maintenance-content {
+            .maintenance-header {
+                flex-direction: column;
+                align-items: flex-start;
+
+                .header-actions {
+                    width: 100%;
+                    flex-direction: column;
+
+                    button {
+                        width: 100%;
+                    }
+                }
+            }
+
+            .details-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    }
+}
+
+/* Dark Theme */
+:host-context(.dark-theme) {
+    .maintenance-content {
+        .maintenance-header {
+            background-color: #2d2d2d;
+
+            .maintenance-meta {
+                .status-badge {
+                    &.badge-upcoming {
+                        background-color: #78350f;
+                        color: #fef3c7;
+                    }
+
+                    &.badge-late {
+                        background-color: #7f1d1d;
+                        color: #fee2e2;
+                    }
+
+                    &.badge-done {
+                        background-color: #14532d;
+                        color: #dcfce7;
+                    }
+                }
+
+                .type-badge {
+                    background-color: #404040;
+                    color: #d1d5db;
+                }
+            }
+        }
+
+        .details-grid {
+            .info-card {
+                mat-card-content {
+                    .info-row {
+                        border-bottom-color: #404040;
+                    }
+                }
+            }
+        }
+    }
+}

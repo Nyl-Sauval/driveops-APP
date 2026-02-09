@@ -1,0 +1,51 @@
+<!-- Empty State -->
+<div class="empty-state" *ngIf="showEmptyState && vehicles.length === 0">
+    <div class="empty-content">
+        <mat-icon class="material-icons-outlined empty-icon">no_crash</mat-icon>
+        <p>Vous n'avez pas encore de véhicule enregistré.</p>
+        <button mat-flat-button color="primary" routerLink="/vehicles/add">
+            <mat-icon class="material-icons-outlined">add</mat-icon>
+            Ajouter un véhicule
+        </button>
+    </div>
+</div>
+
+<!-- Vehicle Cards List -->
+<div class="vehicle-list" *ngIf="vehicles.length > 0">
+    <div class="vehicle-card" *ngFor="let vehicle of displayedVehicles">
+        <div class="vehicle-image">
+            <img src="assets/placeholder-car.png" alt="Véhicule"
+                onerror="this.src='https://placehold.co/150x100?text=Voiture'">
+        </div>
+
+        <div class="vehicle-info">
+            <div class="vehicle-header">
+                <h4>{{ vehicle.brand }} {{ vehicle.model }}</h4>
+                <span class="status-badge status-ok">À jour</span>
+            </div>
+
+            <div class="vehicle-details">
+                <span class="detail-item license-plate">{{ vehicle.license_plate }}</span>
+                <span class="separator">•</span>
+                <span class="detail-item">{{ vehicle.purchase_date ? (vehicle.purchase_date | date:'yyyy') :
+                    vehicle.year }}</span>
+                <span class="separator">•</span>
+                <span class="detail-item">{{ vehicle.mileage | number }} km</span>
+            </div>
+
+            <div class="next-maintenance">
+                <mat-icon class="material-icons-outlined">event</mat-icon>
+                <span>Prochain entretien : <strong>15/05/2026</strong></span>
+            </div>
+        </div>
+
+        <div class="vehicle-actions">
+            <button mat-icon-button [routerLink]="['/vehicles/edit', vehicle.id]" matTooltip="Modifier">
+                <mat-icon class="material-icons-outlined">build</mat-icon>
+            </button>
+            <button mat-icon-button matTooltip="Options">
+                <mat-icon class="material-icons-outlined">more_horiz</mat-icon>
+            </button>
+        </div>
+    </div>
+</div>

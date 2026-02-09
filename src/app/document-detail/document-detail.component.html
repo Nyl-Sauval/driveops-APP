@@ -1,0 +1,137 @@
+<div class="document-detail-container">
+    <!-- Breadcrumb -->
+    <div class="breadcrumb">
+        <a routerLink="/documents" class="breadcrumb-link">
+            <mat-icon class="material-icons-outlined">description</mat-icon>
+            Documents
+        </a>
+        <mat-icon class="material-icons-outlined breadcrumb-separator">chevron_right</mat-icon>
+        <span class="breadcrumb-current">Détail</span>
+    </div>
+
+    <!-- Loading State -->
+    <div *ngIf="loading" class="loading-state">
+        <p>Chargement du document...</p>
+    </div>
+
+    <!-- Error State -->
+    <div *ngIf="error && !loading" class="error-state">
+        <mat-icon class="error-icon">error_outline</mat-icon>
+        <h2>Document introuvable</h2>
+        <p>Le document que vous recherchez n'existe pas ou a été supprimé.</p>
+        <button mat-raised-button color="primary" routerLink="/documents">
+            <mat-icon class="material-icons-outlined">arrow_back</mat-icon>
+            Retour aux documents
+        </button>
+    </div>
+
+    <!-- Document Content -->
+    <div *ngIf="document && !loading && !error" class="document-content">
+        <!-- Header -->
+        <div class="document-header">
+            <div class="header-left">
+                <mat-icon [class]="'file-icon ' + getFileIcon()">{{ getFileIcon() }}</mat-icon>
+                <div class="header-text">
+                    <h1 class="document-title">{{ document.description || 'Document sans description' }}</h1>
+                    <p class="document-date">Créé le {{ formatDate(document.date) }}</p>
+                </div>
+            </div>
+            <div class="header-actions">
+                <button mat-raised-button color="primary" (click)="downloadDocument()">
+                    <mat-icon class="material-icons-outlined">download</mat-icon>
+                    Télécharger
+                </button>
+                <button mat-icon-button [matMenuTriggerFor]="menu">
+                    <mat-icon class="material-icons-outlined">more_vert</mat-icon>
+                </button>
+                <mat-menu #menu="matMenu">
+                    <button mat-menu-item>
+                        <mat-icon class="material-icons-outlined">edit</mat-icon>
+                        <span>Modifier</span>
+                    </button>
+                    <button mat-menu-item (click)="deleteDocument()">
+                        <mat-icon class="material-icons-outlined" color="warn">delete</mat-icon>
+                        <span>Supprimer</span>
+                    </button>
+                </mat-menu>
+            </div>
+        </div>
+
+        <!-- Details Cards -->
+        <div class="details-grid">
+            <!-- Main Information Card -->
+            <mat-card class="info-card">
+                <mat-card-header>
+                    <mat-card-title>Informations principales</mat-card-title>
+                </mat-card-header>
+                <mat-card-content>
+                    <div class="info-row">
+                        <mat-icon class="material-icons-outlined">euro</mat-icon>
+                        <div class="info-content">
+                            <span class="info-label">Montant</span>
+                            <span class="info-value amount">{{ formatAmount(document.amount) }}</span>
+                        </div>
+                    </div>
+
+                    <div class="info-row">
+                        <mat-icon class="material-icons-outlined">event</mat-icon>
+                        <div class="info-content">
+                            <span class="info-label">Date</span>
+                            <span class="info-value">{{ formatDate(document.date) }}</span>
+                        </div>
+                    </div>
+
+                    <div class="info-row" *ngIf="document.description">
+                        <mat-icon class="material-icons-outlined">notes</mat-icon>
+                        <div class="info-content">
+                            <span class="info-label">Description</span>
+                            <span class="info-value">{{ document.description }}</span>
+                        </div>
+                    </div>
+
+                    <div class="info-row" *ngIf="document.file_path">
+                        <mat-icon class="material-icons-outlined">attachment</mat-icon>
+                        <div class="info-content">
+                            <span class="info-label">Fichier</span>
+                            <span class="info-value">{{ document.file_path }}</span>
+                        </div>
+                    </div>
+                </mat-card-content>
+            </mat-card>
+
+            <!-- Related Vehicles Card -->
+            <mat-card class="info-card" *ngIf="document.vehicles && document.vehicles.length > 0">
+                <mat-card-header>
+                    <mat-card-title>Véhicules associés</mat-card-title>
+                </mat-card-header>
+                <mat-card-content>
+                    <div class="vehicles-list">
+                        <mat-chip-listbox>
+                            <mat-chip-option *ngFor="let vehicle of document.vehicles">
+                                <mat-icon matChipAvatar class="material-icons-outlined">directions_car</mat-icon>
+                                {{ vehicle.name }} ({{ vehicle.brand }} {{ vehicle.model }})
+                            </mat-chip-option>
+                        </mat-chip-listbox>
+                    </div>
+                </mat-card-content>
+            </mat-card>
+
+            <!-- Related Maintenances Card -->
+            <mat-card class="info-card" *ngIf="document.maintenances && document.maintenances.length > 0">
+                <mat-card-header>
+                    <mat-card-title>Entretiens associés</mat-card-title>
+                </mat-card-header>
+                <mat-card-content>
+                    <div class="maintenances-list">
+                        <mat-chip-listbox>
+                            <mat-chip-option *ngFor="let maintenance of document.maintenances">
+                                <mat-icon matChipAvatar class="material-icons-outlined">build</mat-icon>
+                                {{ maintenance.description || 'Entretien' }}
+                            </mat-chip-option>
+                        </mat-chip-listbox>
+                    </div>
+                </mat-card-content>
+            </mat-card>
+        </div>
+    </div>
+</div>
